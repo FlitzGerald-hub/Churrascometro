@@ -12,42 +12,55 @@ let crianca = document.getElementById("criancas")
 let duracao = document.getElementById("duracao")
 let res = document.getElementById("res")
 
-var carne = ''
-var cerveja = ''
-var refri = ''
-var carneC = ''
-var refriC = ''
-
-
 function calc(){
     if(adulto.value.length == 0 || crianca.value.length == 0 || duracao.value.length == 0){
         window.alert(`Por favor, insira todos dados pedidos e tente novamente!`)
     } else {
-        //Adulto
-        if(duracao.value < 6){
-            carne = 400 * pessoas.value
-            cerveja = 1200 * pessoas.value
-            refri = 1000 * pessoas.value
-        } else {
-            carne = 650 * pessoas.value
-            cerveja = 2000 * pessoas.value
-            refri = 1500 * pessoas.value
-        }
-        //Criança
-        if(duracao.value < 6){
-            carneC = 200 * cria.value
-            refriC = 500 * cria.value
-        } else {
-            carneC = 325 * cria.value
-            refriC = 750 * cria.value
+        let totcarne = (adulto.value * carnePP(duracao)) + (crianca.value * (carnePP(duracao)) / 2)
+        let cerveja = (adulto.value * cervejaPP(duracao))
+        let totrefri = (adulto.value * refriPP(duracao)) + (crianca.value * (refriPP(duracao)) / 2)
+
+        function carnePP(duracao){
+            if(duracao >= 6){
+                return 650
+            } else {
+                return 400
+            }
         }
 
-        var totcarne = carne + carneC
-        var totrefri = refri + refriC
+        function cervejaPP(duracao){
+            if(duracao >= 6){
+                return 2000
+            } else {
+                return 1200
+            }
+        }
 
-       res.innerHTML = `${totcarne}gr de carne  `
-       res.innerHTML += `${cerveja}ml de cerveja  `
-       res.innerHTML += `${totrefri}ml de refrigerante  `
+        function refriPP(duracao){
+            if(duracao >= 6){
+                return 1500
+            } else {
+                return 1000
+            }
+        
+        }
+
+        
+
+        /*if(duracao.value < 6){
+            var totcarne = (400 * adulto.value) + (200 * crianca.value)       
+            var cerveja = (1200 * adulto.value)
+            var totrefri = (1000 * adulto.value) + (500 * crianca.value)
+        } else {
+            var totcarne = (650 * adulto.value) + (400 * crianca.value)       
+            var cerveja = (2000 * adulto.value)
+            var totrefri = (1500 * adulto.value) + (1000 * crianca.value)
+        }*/
+
+        
+       res.innerHTML = `<p>${Math.ceil(totcarne / 1000)}Kg de carne</p>`
+       res.innerHTML += `<p>${Math.ceil(cerveja / 355)} latas de cerveja</p>`
+       res.innerHTML += `<p>${Math.ceil(totrefri / 2000)} garrafas de 2 litros de refrigerante</p>`
+
     }
-
 }
